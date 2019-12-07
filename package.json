@@ -1,0 +1,17 @@
+{
+  "name": "ffmpeg-generator",
+  "version": "0.0.1",
+  "description": "",
+  "main": "webpack.mix.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "cross-env": "^6.0.3",
+    "laravel-mix": "^5.0.0",
+    "tailwindcss": "^1.1.4"
+  },
+  "devDependencies": {},
+  "author": "",
+  "license": "MIT"
+}
