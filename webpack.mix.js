@@ -4,4 +4,4 @@ mix
     .postCss('src/css/app.css', 'dist/', [
         require('tailwindcss'),
     ])
-    .js('src/app.js', 'dist/')
+    .js('src/js/app.js', 'dist/')

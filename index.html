@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ffmpeg-generator</title>
+    <link rel="stylesheet" href="dist/app.css">
+</head>
+<body>
+    <div id="app">
+        <header class="flex w-full justify-between align-middle content-center p-4 shadow-md">
+            <h1 class="text-xl font-black">
+                ffmpeg generator
+                <span class="text-gray-700 text-sm font-normal px-2">Generate ffmpeg commands with ease</span>
+            </h1>
+            <nav>
+                <a href="https://github.com/MarceauKa/ffmpeg-generator" class="hover:text-indigo-700 leading-relaxed">Source</a>
+            </nav>
+        </header>
+        
+        <main class="p-4">
+            <alert class="mb-4" color="teal" title="Use ffprobe" message="ffprobe -loglevel quiet -show_format -show_streams -print_format json video_file.mkv"></alert>
+            <file-info ref="info"></file-info>
+        </main>
+    </div>
+    <script src="dist/app.js"></script>
+</body>
+</html>
