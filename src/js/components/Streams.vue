@@ -24,11 +24,13 @@ export default {
         this.$bus.on('file.input', (input) => {
             this.format = input.format;
             this.streams = input.streams;
+            this.maps = {};
         });
 
         this.$bus.on('file.reset', () => {
             this.format = {};
             this.streams = [];
+            this.maps = {};
         });
 
         this.$bus.on('stream.command', (payload) => {

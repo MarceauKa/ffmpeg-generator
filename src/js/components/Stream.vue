@@ -53,16 +53,24 @@ export default {
     },
 
     computed: {
-        command() {
+        command: function () {
             if (this.disabled) {
                 return '';
             }
 
             let index = this.stream.index;
             let codec = this.codec ? DATA.ENCODERS[this.codec] || this.codec : 'copy';
-            let title = DATA.LANGS[this.lang];
 
-            return `-map 0:${index} -c:0:${index} ${codec} -metatada:0:${index} language=${this.lang} title="${title}"`;
+            let parts = [
+                `-map 0:${index} -c:0:${index} ${codec}`
+            ];
+
+            if (this.lang && this.lang !== 'und') {
+                let title = DATA.LANGS[this.lang];
+                parts.push(`-metatada:0:${index} language=${this.lang} title="${title}"`);
+            }
+
+            return parts.join(' ');
         },
     }
 }
