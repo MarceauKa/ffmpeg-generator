@@ -6,7 +6,7 @@
                    group="streams"
                    v-bind="dragOptions"
                    @start="drag = true"
-                   @end="drag = false"
+                   @end="moved"
                    handle=".handle-order"
         >
             <transition-group
@@ -58,25 +58,17 @@ export default {
             let index = this.streams.indexOf(payload.stream);
             this.streams[index].command = payload.command;
 
-            this.updateMaps();
-        },
-
-        updateMaps() {
-            let maps = [];
-
-            this.streams.forEach((item) => {
-                maps.push(item.command);
-            });
-
             this.$bus.emit('streams', {
-                command: maps,
+                streams: this.streams,
             })
         },
-    },
 
-    watch: {
-        streams: function (value) {
-            this.updateMaps();
+        moved() {
+            this.drag = false;
+
+            this.$bus.emit('streams', {
+                streams: this.streams,
+            })
         }
     }
 }

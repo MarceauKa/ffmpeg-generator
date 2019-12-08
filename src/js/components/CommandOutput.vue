@@ -25,7 +25,8 @@ export default {
         return {
             filename: '',
             format: {},
-            parts: {},
+            streams: [],
+            parts: [],
             command: '',
         }
     },
@@ -33,25 +34,34 @@ export default {
     mounted() {
         this.$bus.on('file.input', (input) => {
             this.format = input.format;
-            this.parts = {};
+            this.streams = [];
+            this.parts = [];
             this.command = '';
+
             this.updateCommand();
         });
 
         this.$bus.on('file.reset', () => {
             this.format = {};
-            this.parts = {};
+            this.streams = [];
+            this.parts = [];
             this.command = '';
+
             this.updateCommand();
         });
 
-        this.$bus.on('streams', (streams) => {
-            this.parts = streams.command;
+        this.$bus.on('streams', (payload) => {
+            this.streams = payload.streams;
+
             this.updateCommand();
         });
 
-        this.$bus.on('output.filename', (payload) => {
+        this.$bus.on('file.output', (payload) => {
             this.filename = payload.name;
+
+            this.manageChapters(payload.chapters);
+            this.manageMetadata(payload.metadata);
+
             this.updateCommand();
         });
     },
@@ -60,9 +70,36 @@ export default {
         updateCommand() {
             let input = this.format.filename;
             let output = this.filename;
+            let maps = this.streams.map(item => item.command).join(' ');
             let parts = Object.values(this.parts).join(' ');
+            
+            this.command = `ffmpeg -i "${input}" ${maps} ${parts} "${output}"`.trim();
+        },
 
-            this.command = `ffmpeg -i "${input}" ${parts} "${output}"`.trim();
+        manageChapters(state) {
+            let chapters_commands = '-map_chapters -1';
+            let chapters_index = this.parts.indexOf(chapters_commands);
+
+            if (state === true && chapters_index === -1) {
+                this.parts.push(chapters_commands);
+            }
+
+            if (state === false && chapters_index !== -1) {
+                this.parts.splice(chapters_index, 1);
+            }
+        },
+
+        manageMetadata(state) {
+            let meta_commands = '-map_metadata -1';
+            let meta_index = this.parts.indexOf(meta_commands);
+
+            if (state === true && meta_index === -1) {
+                this.parts.push(meta_commands);
+            }
+
+            if (state === false && meta_index !== -1) {
+                this.parts.splice(meta_index, 1);
+            }
         }
     }
 }

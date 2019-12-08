@@ -18,7 +18,13 @@
             </div>
         </div>
 
-        <form-input v-model="filename"></form-input>
+        <form-input placeholder="Output file name" v-model="filename"></form-input>
+
+        <div class="flex flex-wrap sm:flex-no-wrap justify-start mt-2">
+            <form-checkbox class="mr-0 sm:mr-2" v-model="chapters">Remove chapters</form-checkbox>
+
+            <form-checkbox v-model="metadata">Remove initial metadata</form-checkbox>
+        </div>
     </div>
 </template>
 
@@ -28,6 +34,8 @@ export default {
     data() {
         return {
             filename: '',
+            chapters: false,
+            metadata: false,
         }
     },
 
@@ -39,7 +47,6 @@ export default {
 
         this.$bus.on('file.reset', () => {
             this.filename = '';
-            this.extension = '';
         });
     },
 
@@ -51,9 +58,7 @@ export default {
                 this.filename = `${match[1]}.${match[2]}`;
             }
 
-            this.$bus.emit('output.filename', {
-                name: this.filename,
-            })
+            this.updated();
         },
 
         setExtension(ext) {
@@ -64,13 +69,29 @@ export default {
                 let file = `${match[1]}.${ext}`;
                 this.updateFilename(file);
             }
+        },
+
+        updated() {
+            this.$bus.emit('file.output', {
+                name: this.filename,
+                chapters: this.chapters,
+                metadata: this.metadata,
+            })
         }
     },
 
     watch: {
         filename(value) {
             this.updateFilename(value);
-        }
+        },
+
+        chapters() {
+            this.updated();
+        },
+
+        metadata() {
+            this.updated();
+        },
     }
 }
 </script>
