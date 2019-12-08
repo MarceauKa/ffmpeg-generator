@@ -2,13 +2,14 @@
     <div v-if="format.filename">
         <div class="flex justify-between">
             <form-label text="Command"></form-label>
+
             <a href="#"
                class="text-sm text-indigo-500 hover:text-indigo-700"
-               @click="copyToClipboard($event, command)"
+               @click.prevent="copyToClipboard($event, command)"
             >Copy</a>
         </div>
 
-        <p class="block border rounded shadow py-2 px-3 text-red-500 break-all font-mono">{{ command }}</p>
+        <p class="block border rounded shadow py-2 px-3 text-red-500 break-all font-mono bg-white">{{ command }}</p>
     </div>
 </template>
 

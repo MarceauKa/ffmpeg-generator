@@ -8,12 +8,12 @@
     <title>ffmpeg-generator</title>
     <link rel="stylesheet" href="dist/app.css">
 </head>
-<body>
+<body class="bg-gray-100">
     <div id="app">
-        <header class="flex w-full justify-between align-middle content-center p-4 shadow-md">
+        <header class="flex w-full justify-between align-middle content-center p-4 bg-white shadow">
             <h1 class="text-xl font-black">
                 ffmpeg generator
-                <span class="text-gray-700 text-sm font-normal px-2">Generate ffmpeg commands with ease</span>
+                <span class="text-gray-700 text-sm font-normal px-2 hidden sm:inline-block">Generate ffmpeg commands with ease</span>
             </h1>
             <nav>
                 <a href="https://github.com/MarceauKa/ffmpeg-generator" class="hover:text-indigo-700 leading-relaxed">Source</a>
@@ -21,10 +21,16 @@
         </header>
         
         <main class="p-4">
-            <alert class="mb-4" color="teal" title="Use ffprobe" message="ffprobe -loglevel quiet -show_format -show_streams -print_format json video_file.mkv"></alert>
-            <file-info ref="info"></file-info>
-            <file-output class="mt-4"></file-output>
+            <div class="w-full rounded overflow-hidden shadow bg-white">
+                <div class="px-6 py-4">
+                    <file-info></file-info>
+                </div>
+            </div>
+
             <streams class="mt-4"></streams>
+
+            <file-output class="mt-4"></file-output>
+
             <command-output class="mt-4"></command-output>
         </main>
     </div>

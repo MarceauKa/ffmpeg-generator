@@ -4,7 +4,7 @@
             @change="select"
     >
         <option v-for="(name, key) in options"
-                :value="key" :selected="isSelected(key)">{{ name }}</option>
+                :value="key" :selected="isSelected(key)">{{ name }} ({{ key }})</option>
     </select>
 </template>
 

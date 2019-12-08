@@ -1,5 +1,14 @@
 <template>
     <div>
+        <alert class="mb-4" color="teal" v-if="!input">
+            <template #title>
+                Use ffprobe
+            </template>
+            <template #message>
+                <p class="font-mono">ffprobe -loglevel quiet -show_format -show_streams -print_format json video_file.mkv</p>
+            </template>
+        </alert>
+
         <div class="flex justify-between">
             <form-label text="File info"></form-label>
             <a href="#"
@@ -7,17 +16,21 @@
                @click="example"
                v-if="!format.filename"
             >Load example</a>
-        </div>
-
-        <form-textarea v-model="input" v-if="!format.filename"></form-textarea>
-
-        <p v-else>
-            File <strong>{{ format.filename }}</strong> with <strong>{{ streams.length }}</strong> streams.
             <a href="#"
-               class="text-indigo-500 hover:text-indigo-700"
+               class="text-sm text-indigo-500 hover:text-indigo-700"
+               v-else
                @click="reset"
             >Reset</a>
-        </p>
+        </div>
+
+        <form-textarea v-model="input" placeholder="Paste your ffprobe result" v-if="!format.filename"></form-textarea>
+
+        <alert color="blue" v-else>
+            <template #title>{{ format.filename }}</template>
+            <template #message>
+                Detected <strong>{{ streams.length }}</strong> streams
+            </template>
+        </alert>
     </div>
 </template>
 

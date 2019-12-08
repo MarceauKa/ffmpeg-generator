@@ -1,6 +1,7 @@
 <template>
     <textarea ref="input"
               class="shadow appearance-none border rounded w-full h-40 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline resize-y"
+              :placeholder="placeholder"
               @input="input"
     >{{ value }}</textarea>
 </template>
@@ -10,6 +11,7 @@ export default {
     props: {
         text: String,
         value: String,
+        placeholder: String,
     },
 
     methods: {

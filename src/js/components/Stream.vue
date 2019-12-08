@@ -1,11 +1,19 @@
 <template>
-    <div class="flex items-center align-middle p-2 border mb-2 rounded shadow">
-        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
+    <div class="flex flex-wrap sm:flex-no-wrap justify-between items-center align-middle p-2 border mb-2 bg-white rounded shadow"
+         :class="{'opacity-50': disabled}">
+        <span class="block w-full sm:w-1/6 text-center bg-gray-200 rounded px-3 py-2 text-sm font-semibold text-gray-700 mr-0 mb-1 sm:mr-2 sm:mb-0">
             {{ stream.codec_type.toUpperCase() }} #{{ stream.index }}
         </span>
 
-        <form-codec :stream="stream" v-model="codec" class="w-1/4 mr-2"></form-codec>
-        <form-lang v-model="lang" class="w-1/5"></form-lang>
+        <div class="flex flex-wrap sm:flex-no-wrap justify-start mr-0 mb-2 sm:mr-2 sm:mb-0">
+            <form-codec :stream="stream" v-model="codec" class="w-full sm:w-2/4 mb-1 sm:mb-0 mr-0 sm:mr-2"></form-codec>
+            <form-lang v-model="lang" class="w-full sm:w-2/4"></form-lang>
+        </div>
+
+        <div class="ml-auto sm:ml-none">
+            <button class="text-sm text-teal-500" @click="disable" v-if="!disabled">Included</button>
+            <button class="text-sm text-indigo-500" @click="disable" v-else>Excluded</button>
+        </div>
     </div>
 </template>
 
@@ -21,11 +29,18 @@ export default {
         return {
             codec: 'copy',
             lang: 'und',
+            disabled: false,
         }
     },
 
     mounted() {
         this.lang = this.stream.tags.language || 'und';
+    },
+
+    methods: {
+        disable() {
+            this.disabled = !this.disabled;
+        }
     },
 
     watch: {
@@ -39,6 +54,10 @@ export default {
 
     computed: {
         command() {
+            if (this.disabled) {
+                return '';
+            }
+
             let index = this.stream.index;
             let codec = this.codec ? DATA.ENCODERS[this.codec] || this.codec : 'copy';
             let title = DATA.LANGS[this.lang];
