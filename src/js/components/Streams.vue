@@ -2,11 +2,25 @@
     <div v-if="format.filename">
         <form-label text="Streams"></form-label>
 
-        <stream v-for="stream in streams"
-                :key="stream.index"
-                :stream="stream"
-                @update="updated"
-        ></stream>
+        <draggable v-model="streams"
+                   group="streams"
+                   v-bind="dragOptions"
+                   @start="drag = true"
+                   @end="drag = false"
+                   handle=".handle-order"
+        >
+            <transition-group
+                    type="transition"
+                    tag="div"
+                    :name="!drag ? 'flip-list' : null"
+            >
+                <stream v-for="stream in streams"
+                        :key="stream.index"
+                        :stream="stream"
+                        @update="updated"
+                ></stream>
+            </transition-group>
+        </draggable>
     </div>
 </template>
 
@@ -16,7 +30,14 @@ export default {
         return {
             streams: [],
             format: {},
-            maps: {},
+            drag: false,
+            dragOptions: {
+                animation: 200,
+                group: "streams",
+                disabled: false,
+                ghostClass: "ghost",
+                forceFallback: true
+            },
         };
     },
 
@@ -24,27 +45,38 @@ export default {
         this.$bus.on('file.input', (input) => {
             this.format = input.format;
             this.streams = input.streams;
-            this.maps = {};
         });
 
         this.$bus.on('file.reset', () => {
             this.format = {};
             this.streams = [];
-            this.maps = {};
         });
-
-        this.$bus.on('stream.command', (payload) => {
-            this.maps[payload.stream.index] = payload.command;
-        })
     },
 
     methods: {
         updated(payload) {
-            this.maps[payload.stream.index] = payload.command;
+            let index = this.streams.indexOf(payload.stream);
+            this.streams[index].command = payload.command;
+
+            this.updateMaps();
+        },
+
+        updateMaps() {
+            let maps = [];
+
+            this.streams.forEach((item) => {
+                maps.push(item.command);
+            });
 
             this.$bus.emit('streams', {
-                command: this.maps,
+                command: maps,
             })
+        },
+    },
+
+    watch: {
+        streams: function (value) {
+            this.updateMaps();
         }
     }
 }

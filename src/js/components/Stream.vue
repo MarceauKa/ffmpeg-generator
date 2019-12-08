@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-wrap sm:flex-no-wrap justify-between items-center align-middle p-2 border mb-2 bg-white rounded shadow"
          :class="{'opacity-50': disabled}">
-        <span class="block w-full sm:w-1/6 text-center bg-gray-200 rounded px-3 py-2 text-sm font-semibold text-gray-700 mr-0 mb-1 sm:mr-2 sm:mb-0">
+        <span class="block w-full sm:w-1/6 text-center bg-gray-200 rounded px-3 py-2 text-sm font-semibold text-gray-700 mr-0 mb-1 sm:mr-2 sm:mb-0 handle-order cursor-move">
             {{ stream.codec_type.toUpperCase() }} #{{ stream.index }}
         </span>
 

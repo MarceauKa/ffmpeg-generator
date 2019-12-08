@@ -16,7 +16,8 @@
     "laravel-mix": "^5.0.0",
     "tailwindcss": "^1.1.4",
     "vue": "^2.6.10",
-    "vue-bus": "^1.2.1"
+    "vue-bus": "^1.2.1",
+    "vuedraggable": "^2.23.2"
   },
   "devDependencies": {
     "vue-template-compiler": "^2.6.10"
