@@ -1,0 +1,71 @@
+{
+  "streams": [
+    {
+      "index": 0,
+      "bit_rate": "12000000",
+      "codec_name": "vp8",
+      "codec_type": "video",
+      "width": 214,
+      "height": 160,
+      "coded_width": 214,
+      "coded_height": 160,
+      "disposition": {
+        "default": 1
+      },
+      "tags": {
+        "title": "Example Video Stream",
+        "language": "eng"
+      }
+    },
+    {
+      "index": 1,
+      "bit_rate": "256000",
+      "codec_name": "vorbis",
+      "codec_type": "audio",
+      "channel_layout": "stereo",
+      "disposition": {
+        "default": 1
+      },
+      "tags": {
+        "title": "Example Audio Stream",
+        "language": "eng"
+      }
+    },
+    {
+      "index": 2,
+      "bit_rate": "512000",
+      "codec_name": "opus",
+      "codec_type": "audio",
+      "channel_layout": "5.1",
+      "disposition": {
+        "default": 0
+      },
+      "tags": {
+        "title": "Example Audio Stream",
+        "language": "fre"
+      }
+    },
+    {
+      "index": 3,
+      "codec_name": "subrip",
+      "codec_type": "subtitle",
+      "disposition": {
+        "default": 0
+      },
+      "tags": {
+        "title": "Example Subtitle Stream",
+        "language": "fre"
+      }
+    }
+  ],
+  "format": {
+    "filename": "Example.ogv",
+    "format_long_name": "Matroska / WebM",
+    "duration": "186.727000",
+    "size": "5183802",
+    "bit_rate": "222091",
+    "tags": {
+      "title": "Example Container"
+    }
+  }
+}

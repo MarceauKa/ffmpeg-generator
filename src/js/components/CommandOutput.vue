@@ -1,13 +1,25 @@
 <template>
     <div v-if="format.filename">
-        <form-label text="Command"></form-label>
+        <div class="flex justify-between">
+            <form-label text="Command"></form-label>
+            <a href="#"
+               class="text-sm text-indigo-500 hover:text-indigo-700"
+               @click="copyToClipboard($event, command)"
+            >Copy</a>
+        </div>
 
         <p class="block border rounded shadow py-2 px-3 text-red-500 break-all font-mono">{{ command }}</p>
     </div>
 </template>
 
 <script>
+import copyToClipboard from '../mixins/copyToClipboard';
+
 export default {
+    mixins: [
+        copyToClipboard
+    ],
+
     data() {
         return {
             filename: '',

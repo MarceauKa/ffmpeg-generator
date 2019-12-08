@@ -1,7 +1,16 @@
 <template>
     <div>
-        <form-label text="File info"></form-label>
+        <div class="flex justify-between">
+            <form-label text="File info"></form-label>
+            <a href="#"
+               class="text-sm text-indigo-500 hover:text-indigo-700"
+               @click="example"
+               v-if="!format.filename"
+            >Load example</a>
+        </div>
+
         <form-textarea v-model="input" v-if="!format.filename"></form-textarea>
+
         <p v-else>
             File <strong>{{ format.filename }}</strong> with <strong>{{ streams.length }}</strong> streams.
             <a href="#"
@@ -24,10 +33,6 @@ export default {
         }
     },
 
-    mounted() {
-        this.input = DATA.EXAMPLE;
-    },
-
     methods: {
         reset() {
             this.input = '';
@@ -35,6 +40,10 @@ export default {
             this.format = {};
 
             this.$bus.$emit('file.reset');
+        },
+
+        example() {
+            this.input = DATA.EXAMPLE;
         }
     },
 
@@ -45,7 +54,7 @@ export default {
             }
 
             try {
-                let data = JSON.parse(value);
+                let data = value === Object(value) ? value : JSON.parse(value);
                 this.streams = data.streams;
                 this.format = data.format;
 

@@ -16,7 +16,11 @@ export default {
 
     mounted() {
         this.$bus.on('file.input', (input) => {
-            this.filename = `[ffmpeg] ${input.format.filename}`;
+            this.filename = `Converted - ${input.format.filename}`;
+        });
+
+        this.$bus.on('file.reset', () => {
+            this.filename = '';
         });
     },
 

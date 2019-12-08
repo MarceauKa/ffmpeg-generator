@@ -1,13 +1,11 @@
 <template>
     <div class="flex items-center align-middle p-2 border mb-2 rounded shadow">
         <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
-            #{{ stream.index }}
+            {{ stream.codec_type.toUpperCase() }} #{{ stream.index }}
         </span>
 
-        <span class="mr-2">{{ stream.codec_type.toUpperCase() }}</span>
-
-        <form-codec :stream="stream" v-model="codec" class="mr-2"></form-codec>
-        <form-lang v-model="lang" class="mr-2"></form-lang>
+        <form-codec :stream="stream" v-model="codec" class="w-1/4 mr-2"></form-codec>
+        <form-lang v-model="lang" class="w-1/5"></form-lang>
     </div>
 </template>
 
@@ -43,8 +41,9 @@ export default {
         command() {
             let index = this.stream.index;
             let codec = this.codec ? DATA.ENCODERS[this.codec] || this.codec : 'copy';
+            let title = DATA.LANGS[this.lang];
 
-            return `-map 0:${index} -c:0:${index} ${codec} -metatada:0:${index} language=${this.lang} title=""`;
+            return `-map 0:${index} -c:0:${index} ${codec} -metatada:0:${index} language=${this.lang} title="${title}"`;
         },
     }
 }
