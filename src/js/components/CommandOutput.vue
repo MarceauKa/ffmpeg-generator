@@ -33,11 +33,15 @@ export default {
     mounted() {
         this.$bus.on('file.input', (input) => {
             this.format = input.format;
+            this.parts = {};
+            this.command = '';
             this.updateCommand();
         });
 
         this.$bus.on('file.reset', () => {
             this.format = {};
+            this.parts = {};
+            this.command = '';
             this.updateCommand();
         });
 
