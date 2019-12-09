@@ -1,7 +1,9 @@
 <template>
-    <div class="relative" @blur="close">
+    <div class="relative"
+         v-on-clickaway="close"
+    >
         <input type="search"
-               @focus="open"
+               @click="open"
                v-model="filter"
                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
 
@@ -22,9 +24,9 @@
             </span>
 
             <span v-for="(name, key) in filtered"
-                  @click.stop="select(key)"
-                  class="inline-block w-full p-2 hover:bg-indigo-500 hover:text-white"
-                  :class="{'font-bold': isSelected(key)}"
+              @click="select(key)"
+              class="inline-block w-full p-2 hover:bg-indigo-500 hover:text-white"
+              :class="{'font-bold': isSelected(key)}"
             >
                 {{ name }} ({{ key }})
             </span>

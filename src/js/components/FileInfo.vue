@@ -28,7 +28,7 @@
         <alert color="blue" v-else>
             <template #title>{{ format.filename }}</template>
             <template #message>
-                Detected <strong>{{ streams.length }}</strong> streams
+                Detected <strong>{{ streams.length }}</strong> streams with a duration of <strong>{{ duration }}</strong> seconds.
             </template>
         </alert>
     </div>
@@ -57,6 +57,16 @@ export default {
 
         example() {
             this.input = DATA.EXAMPLE;
+        }
+    },
+
+    computed: {
+        duration() {
+            if (this.format.duration) {
+                return Number(this.format.duration);
+            }
+
+            return null;
         }
     },
 
