@@ -37,7 +37,7 @@
             </div>
         </div>
 
-        <div v-if="showMore">
+        <div v-show="showMore">
             <configure-video :stream="stream" @updated="updated" v-if="stream.codec_type === 'video'"></configure-video>
             <configure-audio :stream="stream" @updated="updated" v-if="stream.codec_type === 'audio'"></configure-audio>
             <configure-subtitle :stream="stream" @updated="updated" v-if="stream.codec_type === 'subtitle'"></configure-subtitle>
@@ -60,56 +60,113 @@ export default {
         }
     },
 
-    mounted() {
-        this.lang = this.stream.tags.language;
-    },
-
     methods: {
         disable() {
             this.disabled = !this.disabled;
             this.showMore = false;
+            this.command();
         },
 
-        updated($event) {
-            console.log($event);
-        }
-    },
-
-    watch: {
-        command: function (value) {
-            this.$emit('update', {
-                stream: this.stream,
-                command: value,
-            });
+        updated(stream) {
+            this.stream = stream;
+            this.command();
         },
-    },
 
-    computed: {
         command() {
             if (this.disabled) {
+                this.$emit('updated', {
+                    stream: this.stream,
+                    command: '',
+                });
+
                 return '';
             }
 
+            let command = '';
+            let options = this.stream.options;
             let index = this.stream.index;
-            let codec = this.stream.codec ? DATA.ENCODERS[this.stream.codec] || this.stream.codec : 'copy';
-
+            let codec = options.codec;
+            let encoder = codec ? DATA.ENCODERS[codec] || codec : 'copy';
             let parts = [
-                `-map 0:${index} -c:0:${index} ${codec}`
+                `-map 0:${index} -c:0:${index} ${encoder}`
             ];
 
-            if (this.stream.lang && this.stream.lang !== 'und') {
-                let lang = this.stream.lang;
+            if (options.filter) {
+                let filter_parts = [];
+
+                if (options.filter.crop) {
+                    filter_parts.push(`crop=${options.filter.crop}`);
+                }
+
+                if (options.filter.scale) {
+                    filter_parts.push(`scale=${options.filter.scale}`);
+                }
+
+                if (filter_parts.length > 0) {
+                    parts.push(`-vf "${filter_parts.join(',')}"`);
+                }
+            }
+
+            if (options.hasOwnProperty('video')) {
+                let video_parts = [];
+
+                if (options.video.crf) {
+                    video_parts.push(`-crf ${options.video.crf}`);
+                }
+
+                if (options.video.profile) {
+                    video_parts.push(`-profile:v ${options.video.profile}`);
+                }
+
+                if (options.video.preset) {
+                    video_parts.push(`-preset ${options.video.preset}`);
+                }
+
+                if (video_parts.length > 0) {
+                    parts.push(video_parts.join(' '));
+                }
+            }
+
+            if (options.hasOwnProperty('audio')) {
+                let audio_parts = [];
+
+                if (options.audio.rates) {
+                    audio_parts.push(`-ar ${options.audio.rates}`);
+                }
+
+                if (options.audio.bitrates) {
+                    audio_parts.push(`-b:a ${options.audio.bitrates}`);
+                }
+
+                if (options.audio.channels) {
+                    audio_parts.push(`-ac ${options.audio.channels}`);
+                }
+
+                if (options.audio.vbr) {
+                    audio_parts.push(`-q:a ${options.audio.rates}`);
+                }
+
+                if (audio_parts.length > 0) {
+                    parts.push(audio_parts.join(' '));
+                }
+            }
+
+            if (options.lang && options.lang !== 'und') {
+                let lang = options.lang;
                 let title = DATA.LANGS[lang];
+
                 parts.push(`-metatada:0:${index} language=${lang} title="${title}"`);
             }
 
-            return parts.join(' ');
-        },
+            command = parts.join(' ');
 
-        showCodec() {
-            return this.stream.codec_type === 'video'
-                || this.stream.codec_type === 'audio';
-        }
-    }
+            this.$emit('updated', {
+                stream: this.stream,
+                command: command,
+            });
+
+            return command;
+        },
+    },
 }
 </script>

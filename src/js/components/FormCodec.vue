@@ -6,22 +6,23 @@ export default {
     extends: FormSelect,
 
     props: {
-        stream: Object,
+        type: String,
     },
 
     mounted() {
         let options;
 
-        if (this.stream.codec_type === 'video') {
-            options = DATA.CODECS_VIDEO;
-        }
+        switch (this.type) {
+            case 'video':
+                options = DATA.CODECS_VIDEO;
+                break;
+            case 'audio':
+                options = DATA.CODECS_AUDIO;
+                break;
+            case 'subtitle':
+                options = DATA.CODECS_SUBTITLE;
+                break;
 
-        if (this.stream.codec_type === 'audio') {
-            options = DATA.CODECS_AUDIO;
-        }
-
-        if (this.stream.codec_type === 'subtitle') {
-            options = DATA.CODECS_SUBTITLE;
         }
 
         options.copy = '-- Copy --';

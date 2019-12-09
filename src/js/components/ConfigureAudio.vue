@@ -1,17 +1,29 @@
 <template>
     <div class="flex flex-wrap sm:flex-no-wrap justify-between p-2 border mb-4 bg-white rounded shadow">
-        <div class="w-1/2 mr-2">
-            <h3>Metadata</h3>
+        <div class="w-1/2 mr-4">
+            <h3 class="mb-2 font-bold uppercase">Metadata</h3>
 
             <form-label text="Language"></form-label>
-            <form-lang v-model="stream.lang" class="w-full"></form-lang>
+            <form-lang v-model="options.lang" class="w-full"></form-lang>
         </div>
 
         <div class="w-1/2">
-            <h3>Codec</h3>
+            <h3 class="mb-2 font-bold uppercase">Codec</h3>
 
             <form-label text="Convert"></form-label>
-            <form-codec :stream="stream" v-model="stream.codec" class="w-full"></form-codec>
+            <form-codec :type="stream.codec_type" v-model="options.codec" class="w-full"></form-codec>
+
+            <form-label class="mt-2" text="Audio rate"></form-label>
+            <form-audio-rates v-model="options.audio.rates" class="w-full"></form-audio-rates>
+
+            <form-label class="mt-2" text="Audio bitrate"></form-label>
+            <form-audio-bitrates v-model="options.audio.bitrates" class="w-full"></form-audio-bitrates>
+
+            <form-label class="mt-2" text="VBR"></form-label>
+            <form-audio-vbr v-model="options.audio.vbr" class="w-full"></form-audio-vbr>
+
+            <form-label class="mt-2" text="Audio channels"></form-label>
+            <form-audio-channels v-model="options.audio.channels" class="w-full"></form-audio-channels>
         </div>
     </div>
 </template>
@@ -20,6 +32,38 @@
 export default {
     props: {
         stream: Object,
+    },
+
+    mounted() {
+        this.options.codec = this.stream.options.codec || null;
+        this.options.lang = this.stream.options.lang || null;
+    },
+
+    data() {
+        return {
+            options: {
+                codec: null,
+                lang: null,
+                audio: {
+                    rates: null,
+                    bitrates: null,
+                    vbr: null,
+                    channels: null,
+                }
+            }
+        }
+    },
+
+    watch: {
+        options: {
+            handler(value) {
+                let stream = this.stream;
+                stream.options = this.options;
+
+                this.$emit('updated', stream);
+            },
+            deep: true
+        }
     }
 }
 </script>

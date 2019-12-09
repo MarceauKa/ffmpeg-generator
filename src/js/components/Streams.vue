@@ -17,7 +17,7 @@
                 <stream v-for="stream in streams"
                         :key="stream.index"
                         :stream="stream"
-                        @update="updated"
+                        @updated="updated"
                 ></stream>
             </transition-group>
         </draggable>
@@ -45,6 +45,12 @@ export default {
         this.$bus.on('file.input', (input) => {
             this.format = input.format;
             this.streams = input.streams;
+
+            this.streams.forEach(item => {
+                item.options = {};
+                item.options.codec = 'copy';
+                item.options.lang = item.tags.language;
+            })
         });
 
         this.$bus.on('file.reset', () => {
@@ -55,7 +61,8 @@ export default {
 
     methods: {
         updated(payload) {
-            let index = this.streams.indexOf(payload.stream);
+            let stream = payload.stream;
+            let index = this.streams.indexOf(stream);
             this.streams[index].command = payload.command;
 
             this.$bus.emit('streams', {

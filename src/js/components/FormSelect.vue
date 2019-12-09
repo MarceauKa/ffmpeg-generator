@@ -5,6 +5,7 @@
         <input type="search"
                @click="open"
                v-model="filter"
+               :placeholder="choice ? '' : placeholder"
                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
 
         <span class="absolute block bg-indigo-200 text-sm rounded px-2 py-0 truncate leading-relaxed"
@@ -36,6 +37,10 @@
 
 <script>
 export default {
+    props: {
+        placeholder: String,
+    },
+
     data() {
         return {
             options: Object,

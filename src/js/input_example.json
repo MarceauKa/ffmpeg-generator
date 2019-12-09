@@ -3,15 +3,12 @@
     {
       "index": 0,
       "bit_rate": "12000000",
-      "codec_name": "vp8",
+      "codec_name": "h264",
       "codec_type": "video",
-      "width": 214,
-      "height": 160,
-      "coded_width": 214,
-      "coded_height": 160,
-      "disposition": {
-        "default": 1
-      },
+      "width": 1280,
+      "height": 720,
+      "coded_width": 1280,
+      "coded_height": 720,
       "tags": {
         "title": "Example Video Stream",
         "language": "eng"
@@ -19,51 +16,51 @@
     },
     {
       "index": 1,
+      "bit_rate": "448000",
+      "codec_name": "ac3",
+      "codec_type": "audio",
+      "channel_layout": "5.1",
+      "tags": {
+        "title": "Example Audio Stream",
+        "language": "fre"
+      }
+    },
+    {
+      "index": 2,
       "bit_rate": "256000",
-      "codec_name": "vorbis",
+      "codec_name": "aac",
       "codec_type": "audio",
       "channel_layout": "stereo",
-      "disposition": {
-        "default": 1
-      },
       "tags": {
         "title": "Example Audio Stream",
         "language": "eng"
       }
     },
     {
-      "index": 2,
-      "bit_rate": "512000",
-      "codec_name": "opus",
-      "codec_type": "audio",
-      "channel_layout": "5.1",
-      "disposition": {
-        "default": 0
-      },
-      "tags": {
-        "title": "Example Audio Stream",
-        "language": "fre"
-      }
-    },
-    {
       "index": 3,
       "codec_name": "subrip",
       "codec_type": "subtitle",
-      "disposition": {
-        "default": 0
-      },
       "tags": {
         "title": "Example Subtitle Stream",
         "language": "fre"
       }
+    },
+    {
+      "index": 4,
+      "codec_name": "subrip",
+      "codec_type": "subtitle",
+      "tags": {
+        "title": "Example Subtitle Stream",
+        "language": "eng"
+      }
     }
   ],
   "format": {
-    "filename": "Example.ogv",
+    "filename": "Example.mkv",
     "format_long_name": "Matroska / WebM",
-    "duration": "186.727000",
-    "size": "5183802",
-    "bit_rate": "222091",
+    "duration": "5520.50",
+    "size": "15183802",
+    "bit_rate": "222000",
     "tags": {
       "title": "Example Container"
     }
