@@ -87,8 +87,9 @@ export default {
             let index = this.stream.index;
             let codec = options.codec;
             let encoder = codec ? DATA.ENCODERS[codec] || codec : 'copy';
+            let type = this.stream.codec_type === 'video' ? 'v' : this.stream.codec_type === 'audio' ? 'a' : 's';
             let parts = [
-                `-map 0:${index} -c:0:${index} ${encoder}`
+                `-map 0:${index} -c:${type}:${index} ${encoder}`
             ];
 
             if (options.filter) {
@@ -143,7 +144,7 @@ export default {
                 }
 
                 if (options.audio.vbr) {
-                    audio_parts.push(`-q:a ${options.audio.rates}`);
+                    audio_parts.push(`-q:a ${options.audio.vbr}`);
                 }
 
                 if (audio_parts.length > 0) {

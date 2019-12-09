@@ -478,11 +478,11 @@ export default {
         'high444': 'high444',
     },
     AUDIO_RATES: {
-        '2000': '2 khz',
-        '4000': '4 khz',
         '8000': '8 khz',
         '16000': '16 khz',
         '24000': '24 khz',
+        '32000': '32 khz',
+        '44100': '44 khz',
         '48000': '48 khz',
     },
     AUDIO_BITRATES: {
@@ -492,8 +492,10 @@ export default {
         '128k': '128 kbp/s',
         '160k': '160 kbp/s',
         '192k': '192 kbp/s',
-        '220k': '220 kbp/s',
+        '256k': '256 kbp/s',
+        '320k': '320 kbp/s',
         '448k': '448 kbp/s',
+        '512k': '512 kbp/s',
         '640k': '640 kbp/s',
     },
     AUDIO_VBR: {
