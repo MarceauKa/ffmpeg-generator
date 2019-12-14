@@ -12,11 +12,11 @@
                 </span>
                 <span v-else-if="stream.codec_type === 'audio'">
                     {{ stream.codec_name }} @ {{ stream.bit_rate / 1000 }} kbp/s<br>
-                    {{ stream.channel_layout }} ({{ stream.tags.language }})
+                    {{ stream.channel_layout }} ({{ stream.tags ? stream.tags.language : 'und' }})
                 </span>
                 <span v-else-if="stream.codec_type === 'subtitle'">
                     {{ stream.codec_name }}<br>
-                    {{ stream.tags.language }}
+                    {{ stream.tags ? stream.tags.language : 'und' }}
                 </span>
             </div>
 

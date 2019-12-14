@@ -49,7 +49,7 @@ export default {
             this.streams.forEach(item => {
                 item.options = {};
                 item.options.codec = 'copy';
-                item.options.lang = item.tags.language;
+                item.options.lang = item.tags ? item.tags.language : 'und';
             })
         });
 
