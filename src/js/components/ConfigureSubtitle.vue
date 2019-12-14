@@ -5,6 +5,8 @@
 
             <form-label text="Language"></form-label>
             <form-lang v-model="options.lang" class="w-full"></form-lang>
+
+            <form-checkbox class="mt-2" v-model="options.nometa">No meta</form-checkbox>
         </div>
 
         <div class="w-1/2">

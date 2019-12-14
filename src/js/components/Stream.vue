@@ -92,6 +92,29 @@ export default {
                 `-map 0:${index} -c:${type}:${index} ${encoder}`
             ];
 
+
+            parts = this.filterParts(options, parts);
+            parts = this.videoParts(options, parts);
+            parts = this.audioParts(options, parts);
+
+            if (options.lang && options.lang !== 'und' && options.nometa === false) {
+                let lang = options.lang;
+                let title = DATA.LANGS[lang];
+
+                parts.push(`-metatada:${type}:${index} language=${lang} title="${title}"`);
+            }
+
+            command = parts.join(' ');
+
+            this.$emit('updated', {
+                stream: this.stream,
+                command: command,
+            });
+
+            return command;
+        },
+
+        filterParts(options, parts) {
             if (options.filter) {
                 let filter_parts = [];
 
@@ -108,6 +131,10 @@ export default {
                 }
             }
 
+            return parts;
+        },
+
+        videoParts(options, parts) {
             if (options.hasOwnProperty('video')) {
                 let video_parts = [];
 
@@ -128,6 +155,10 @@ export default {
                 }
             }
 
+            return parts;
+        },
+
+        audioParts(options, parts) {
             if (options.hasOwnProperty('audio')) {
                 let audio_parts = [];
 
@@ -152,21 +183,7 @@ export default {
                 }
             }
 
-            if (options.lang && options.lang !== 'und') {
-                let lang = options.lang;
-                let title = DATA.LANGS[lang];
-
-                parts.push(`-metatada:0:${index} language=${lang} title="${title}"`);
-            }
-
-            command = parts.join(' ');
-
-            this.$emit('updated', {
-                stream: this.stream,
-                command: command,
-            });
-
-            return command;
+            return parts;
         },
     },
 }

@@ -23,7 +23,9 @@
         <div class="flex flex-wrap sm:flex-no-wrap justify-start mt-2">
             <form-checkbox class="mr-0 sm:mr-2" v-model="chapters">Remove chapters</form-checkbox>
 
-            <form-checkbox v-model="metadata">Remove initial metadata</form-checkbox>
+            <form-checkbox class="mr-0 sm:mr-2" v-model="metadata">Remove initial metadata</form-checkbox>
+
+            <form-checkbox v-model="faststart">Enable faststart</form-checkbox>
         </div>
     </div>
 </template>
@@ -36,6 +38,7 @@ export default {
             filename: '',
             chapters: false,
             metadata: false,
+            faststart: false,
         }
     },
 
@@ -72,10 +75,26 @@ export default {
         },
 
         updated() {
+            let parts = [];
+            let command = '';
+
+            if (this.chapters === true) {
+                parts.push('-map_chapters -1');
+            }
+
+            if (this.metadata === true) {
+                parts.push('-map_metadata -1');
+            }
+
+            if (this.faststart === true) {
+                parts.push('-movflags +faststart');
+            }
+
+            parts = parts.join(' ');
+            command = `${parts} "${this.filename}"`;
+
             this.$bus.emit('file.output', {
-                name: this.filename,
-                chapters: this.chapters,
-                metadata: this.metadata,
+                command: command.trim(),
             })
         }
     },
@@ -90,6 +109,10 @@ export default {
         },
 
         metadata() {
+            this.updated();
+        },
+
+        faststart() {
             this.updated();
         },
     }

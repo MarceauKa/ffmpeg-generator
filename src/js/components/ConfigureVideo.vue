@@ -6,6 +6,8 @@
             <form-label text="Language"></form-label>
             <form-lang v-model="options.lang" class="w-full"></form-lang>
 
+            <form-checkbox class="mt-2" v-model="options.nometa">No meta</form-checkbox>
+
             <h3 class="mt-2 mb-2 font-bold uppercase">Filter</h3>
 
             <form-label class="mt-2" text="Scale"></form-label>
